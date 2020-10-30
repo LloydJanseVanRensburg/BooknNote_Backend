@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const advertSchema = new Schema(
   {
     creator: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
     type: {
@@ -18,18 +19,32 @@ const advertSchema = new Schema(
     imageUrl: {
       type: String,
     },
-    ratings: [
-      {
-        value: {
-          type: Number,
-          required: true,
-        },
-        comment: {
-          type: String,
-        },
-        // author id
+    reviews: {
+      averageRating: {
+        type: Number,
       },
-    ],
+      ratings: [
+        {
+          author: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+            required: true,
+          },
+          dateTime: {
+            type: Date,
+            default: Date.now,
+          },
+          body: {
+            type: String,
+            required: true,
+          },
+          value: {
+            type: Number,
+            required: true,
+          },
+        },
+      ],
+    },
     title: {
       type: String,
       required: true,
@@ -39,7 +54,7 @@ const advertSchema = new Schema(
       required: true,
     },
     price: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
